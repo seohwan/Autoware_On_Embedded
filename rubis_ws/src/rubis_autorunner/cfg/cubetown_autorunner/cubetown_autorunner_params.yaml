@@ -19,6 +19,9 @@ lidar_republisher:
     deadline: 2_000_000
     period: 2_000_000
   task_response_time_filename: "~/Documents/profiling/response_time/lidar_republisher.csv"  
+  task_resource_configs:
+    cpuset: "-1"
+    cache_allocation: "-1"
 
 voxel_grid_filter:
   rate: 10
@@ -29,6 +32,9 @@ voxel_grid_filter:
     deadline: 0 # ns
     period: 0 # ns
   task_response_time_filename: "~/Documents/profiling/response_time/voxel_grid_filter.csv"  
+  task_resource_configs:
+    cpuset: "-1"
+    cache_allocation: "-1"
 
 ndt_matching:
   rate: 10
@@ -39,7 +45,10 @@ ndt_matching:
     deadline: 0 # ns
     period: 0 # ns
   task_response_time_filename: "~/Documents/profiling/response_time/ndt_matching.csv"
-  
+  task_resource_configs:
+    cpuset: "-1"
+    cache_allocation: "-1"
+
   use_kalman_filter: False
   tf_x: 1.0510799 
   tf_y: 0
@@ -58,6 +67,9 @@ pure_pursuit:
     deadline: 0 # ns
     period: 0 # ns  
   task_response_time_filename: "~/Documents/profiling/response_time/pure_pursuit.csv"  
+  task_resource_configs:
+    cpuset: "-1"
+    cache_allocation: "-1"
 
   dynamic_params_flag: False
   dynamic_params_path: "~/autoware.ai/autoware_files/lgsvl_file/parameter/lgsvl_pure_pursuit.yaml"
@@ -71,6 +83,9 @@ twist_filter:
     deadline: 0 # ns
     period: 0 # ns
   task_response_time_filename: "~/Documents/profiling/response_time/twist_filter.csv"
+  task_resource_configs:
+    cpuset: "-1"
+    cache_allocation: "-1"
 
 # Detection
 ray_ground_filter_center:
@@ -82,6 +97,9 @@ ray_ground_filter_center:
     deadline: 0 # ns
     period: 0 # ns
   task_response_time_filename: "~/Documents/profiling/response_time/ray_ground_filter.csv"
+  task_resource_configs:
+    cpuset: "-1"
+    cache_allocation: "-1"
 
 lidar_euclidean_cluster_detect:
   rate: 10
@@ -92,6 +110,9 @@ lidar_euclidean_cluster_detect:
     deadline: 0 # ns
     period: 0 # ns
   task_response_time_filename: "~/Documents/profiling/response_time/lidar_euclidean_cluster_detect.csv"
+  task_resource_configs:
+    cpuset: "-1"
+    cache_allocation: "-1"
 
   network_definition_file: "~/autoware.ai/autoware_files/vision/yolov3-320.cfg"
   pretrained_model_file: "~/autoware.ai/autoware_files/vision/yolov3-320.weights"
@@ -106,6 +127,9 @@ op_global_planner:
     deadline: 0 # ns
     period: 0 # ns
   task_response_time_filename: "~/Documents/profiling/response_time/op_global_planner.csv"
+  task_resource_configs:
+    cpuset: "-1"
+    cache_allocation: "-1"
 
   multilap_flag: 1
 
@@ -125,6 +149,9 @@ op_trajectory_generator:
     deadline: 0 # ns
     period: 0 # ns
   task_response_time_filename: "~/Documents/profiling/response_time/op_trajectory_generator.csv"
+  task_resource_configs:
+    cpuset: "-1"
+    cache_allocation: "-1"
 
 op_trajectory_evaluator:
   rate: 100 #100
@@ -135,6 +162,9 @@ op_trajectory_evaluator:
     deadline: 0 # ns
     period: 0 # ns
   task_response_time_filename: "~/Documents/profiling/response_time/op_trajectory_evaluator.csv"
+  task_resource_configs:
+    cpuset: "-1"
+    cache_allocation: "-1"
 
   weightPriority: 1
   weightTransition: 0.5
@@ -153,6 +183,9 @@ op_behavior_selector:
     deadline: 0 # ns
     period: 0 # ns
   task_response_time_filename: "~/Documents/profiling/response_time/op_behavior_selector.csv"
+  task_resource_configs:
+    cpuset: "-1"
+    cache_allocation: "-1"
 
   distanceToPedestrianThreshold: 15.0
   sprintSpeed: 10.0
@@ -168,6 +201,9 @@ op_motion_predictor:
     deadline: 0 # ns
     period: 0 # ns  
   task_response_time_filename: "~/Documents/profiling/response_time/op_motion_predictor.csv"
+  task_resource_configs:
+    cpuset: "-1"
+    cache_allocation: "-1"
 
 # Independent
 twist_gate:
@@ -179,5 +215,21 @@ twist_gate:
     deadline: 0 # ns
     period: 0 # ns
   task_response_time_filename: "~/Documents/profiling/response_time/twist_gate.csv"
+  task_resource_configs:
+    cpuset: "-1"
+    cache_allocation: "-1"
 
   zero_flag: 0 ## Publish target velocity as 0
+
+gnss_localizer:
+  rate: 10
+  task_scheduling_configs:
+    policy: "NONE"
+    priority: 99
+    exec_time: 0
+    deadline: 0
+    period: 0
+  task_response_time_filename: "~/Documents/profiling/response_time/gnss_localizer.csv"  
+  task_resource_configs:
+    cpuset: "-1"
+    cache_allocation: "-1"

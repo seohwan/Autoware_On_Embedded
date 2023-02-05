@@ -480,6 +480,13 @@ void RayGroundFilter::Run()
   attr = rubis::create_sched_attr(priority, exec_time, deadline, period);    
   rubis::init_task_scheduling(policy, attr);
 
+  std::string cpuset, cache_allocation;
+
+  node_handle_.param(node_name+"/task_resource_configs/cpuset", cpuset, std::string("-1"));
+  node_handle_.param(node_name+"/task_resource_configs/cache_allocation", cache_allocation, std::string("-1"));
+  rubis::init_resource_cpu_allocation(cpuset);
+  rubis::init_resource_cache_allocation(cache_allocation);
+
   rubis::init_task_profiling(task_response_time_filename);
 
   points_node_sub_ = node_handle_.subscribe("/rubis_"+input_point_topic_.substr(1), 1, &RayGroundFilter::RubisCloudCallback, this);

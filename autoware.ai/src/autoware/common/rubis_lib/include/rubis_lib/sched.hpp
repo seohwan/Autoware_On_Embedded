@@ -104,6 +104,8 @@ bool set_sched_rr(int pid, int priority);
 bool set_sched_rr(int pid, int priority, int child_priority);
 
 bool init_task_scheduling(std::string policy, struct sched_attr attr);
+void init_resource_cpu_allocation(std::string cpuset);
+void init_resource_cache_allocation(std::string cache_allocation);
 void yield_task_scheduling();
 struct sched_attr create_sched_attr(int priority, int exec_time, int deadline, int period);
 

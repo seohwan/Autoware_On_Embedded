@@ -71,7 +71,7 @@ int main(int argc, char** argv){
 
     int rate;
     private_nh.param<int>(node_name+"/rate", rate, 10);
-
+    
     struct rubis::sched_attr attr;
     std::string policy;
     int priority, exec_time ,deadline, period;
@@ -83,6 +83,14 @@ int main(int argc, char** argv){
     private_nh.param(node_name+"/task_scheduling_configs/period", period, 0);
     attr = rubis::create_sched_attr(priority, exec_time, deadline, period);    
     rubis::init_task_scheduling(policy, attr);
+
+    std::string cpuset, cache_allocation;
+
+    private_nh.param(node_name+"/task_resource_configs/cpuset", cpuset, std::string("-1"));
+    private_nh.param(node_name+"/task_resource_configs/cache_allocation", cache_allocation, std::string("-1"));
+    rubis::init_resource_cpu_allocation(cpuset);
+    rubis::init_resource_cache_allocation(cache_allocation);
+
 
     rubis::init_task_profiling(task_response_time_filename);
     

@@ -102,6 +102,14 @@ void Nmea2TFPoseNode::initForROS()
   attr = rubis::create_sched_attr(priority, exec_time, deadline, period);    
   rubis::init_task_scheduling(policy, attr);
 
+  std::string cpuset, cache_allocation;
+
+  nh_.param(node_name+"/task_resource_configs/cpuset", cpuset, std::string("-1"));
+  nh_.param(node_name+"/task_resource_configs/cache_allocation", cache_allocation, std::string("-1"));
+  rubis::init_resource_cpu_allocation(cpuset);
+  rubis::init_resource_cache_allocation(cache_allocation);
+
+
   rubis::init_task_profiling(task_response_time_filename);
 }
 

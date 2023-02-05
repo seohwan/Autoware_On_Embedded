@@ -462,6 +462,13 @@ void GlobalPlanner::MainLoop()
   private_nh.param("/op_global_planner/task_relative_deadline", task_relative_deadline, (double)10);
   private_nh.param("/op_global_planner/multilap_flag", multilap_flag, 0);
   private_nh.param("/op_global_planner/multilap_replanning_distance", multilap_replanning_distance, (double)50);
+  
+  std::string cpuset, cache_allocation;
+
+  private_nh.param("/op_global_planner/task_resource_configs/cpuset", cpuset, std::string("-1"));
+  private_nh.param("/op_global_planner/task_resource_configs/cache_allocation", cache_allocation, std::string("-1"));
+  rubis::init_resource_cpu_allocation(cpuset);
+  rubis::init_resource_cache_allocation(cache_allocation);
 
   rubis::init_task_profiling(task_response_time_filename);
 

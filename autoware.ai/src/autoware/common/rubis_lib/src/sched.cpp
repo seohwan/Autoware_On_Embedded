@@ -121,6 +121,52 @@ bool init_task_scheduling(std::string policy, struct sched_attr attr){
   return true;
 }
 
+void init_resource_cpu_allocation(std::string cpuset){
+  std::string cmd;
+  std::vector<int> child_pids = get_child_pids(getpid());
+  int unused_r;
+  //cpuset configuration
+  if(cpuset.compare(std::string("-1")) != 0){
+    cmd = "/sys/fs/cgroup/cpuset/core" + cpuset;
+    if(access(cmd.c_str(), F_OK)<0){
+      cmd = "mkdir /sys/fs/cgroup/cpuset/core" + cpuset;
+      unused_r = system(cmd.c_str());
+      cmd = "echo " + cpuset + " > /sys/fs/cgroup/cpuset/core" + cpuset + "/cpuset.cpus";
+      unused_r = system(cmd.c_str());
+    }
+    cmd = "echo " + std::to_string(getpid()) + " > /sys/fs/cgroup/cpuset/core" + cpuset + "/tasks";
+    unused_r = system(cmd.c_str());
+    for(auto it = child_pids.begin(); it != child_pids.end(); it++){
+      int child_pid = *it;
+      cmd = "echo " + std::to_string(child_pid) + " > /sys/fs/cgroup/cpuset/core" + cpuset + "/tasks";
+      unused_r = system(cmd.c_str());
+    }
+  }
+}
+
+void init_resource_cache_allocation(std::string cache_allocation){
+  std::string cmd;
+  std::vector<int> child_pids = get_child_pids(getpid());
+  int unused_r;
+  //coloring configuration
+  if(cache_allocation.compare(std::string("-1")) != 0){
+    cmd = "/sys/fs/cgroup/palloc/coloring" + cache_allocation;
+    if(access(cmd.c_str(), F_OK)<0){
+      cmd = "mkdir /sys/fs/cgroup/palloc/coloring" + cache_allocation;
+      unused_r = system(cmd.c_str());
+      cmd = "echo " + cache_allocation + " > /sys/fs/cgroup/palloc/coloring" + cache_allocation + "/palloc.bins";
+      unused_r = system(cmd.c_str());
+    }
+    cmd = "echo " + std::to_string(getpid()) + " > /sys/fs/cgroup/palloc/coloring" + cache_allocation + "/tasks";
+    unused_r = system(cmd.c_str());
+    for(auto it = child_pids.begin(); it != child_pids.end(); it++){
+      int child_pid = *it;
+      cmd = "echo " + std::to_string(child_pid) + " > /sys/fs/cgroup/palloc/coloring" + cache_allocation + "/tasks";
+      unused_r = system(cmd.c_str());
+    }
+  }
+}
+
 void yield_task_scheduling(){
   sched_yield();
 }
